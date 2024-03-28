@@ -10,23 +10,30 @@
           </div>
         </form>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-10">
-        <iframe :src="finalLink" width="700px" height="500px"></iframe>
+      <div class="col-2">
+        <h4>{{ timer }}</h4>
       </div>
     </div>
+    <button @click="stopVideo()">Test</button>
+    <div class="row">
+        <div id="video-home" class="col-10">
+          <iframe id="the-frame" :src="finalLink" width="700px" height="500px" allow="encrypted-media"></iframe>
+        </div>
+      </div>
   </section>
   </template>
   
   <script>
-  import { ref } from 'vue';
+  import { computed, ref } from 'vue';
   import Pop from '../utils/Pop';
+import { AppState } from '../AppState';
   
   export default {
     setup() {
       let watchLink = ref('')
       let finalLink = ref('')
+      let timerActive = ref(false)
+      setInterval(timerAdd, 1000)
       async function letsWatch(){
         let length = watchLink.value.length
         let link = watchLink.value.slice(0, 24)
@@ -37,10 +44,27 @@
         watchLink.value = ''
         Pop.success("OH YEAH BROTHER")
       }
+      var stopVideo = async function (  ) {
+       let element = document.getElementById("video-home")
+	     var iframe = element.querySelector( '#the-frame').ownerDocument.querySelector('#video-player')
+       console.log(iframe)
+      };
+      function timerSet(){
+        timerActive.value = true
+        console.log(timerActive.value)
+      }
+      function timerAdd(){
+        if(timerActive.value == true){
+          AppState.timer += 1
+        }
+      }
       return {
+        timer: computed(()=> AppState.timer),
+        timerSet,
         finalLink,
         watchLink,
-        letsWatch
+        letsWatch,
+        stopVideo
       }
     }
   }
