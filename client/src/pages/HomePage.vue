@@ -1,43 +1,69 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 card align-items-center shadow rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo"
-        class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <section class="container-fluid">
+    <div class="row">
+      <div class="col-4">
+        <h4>What you wanna watch boi</h4>
+        <form @submit.prevent="letsWatch()" action="">
+          <div class="d-flex">
+            <input v-model="watchLink" type="text">
+            <button class="btn btn-outline-dark ms-3">Send it</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-</template>
-
-<script>
-export default {
-  setup() {
-    return {
-      
+    <div class="row">
+      <div class="col-10">
+        <iframe :src="finalLink" width="700px" height="500px"></iframe>
+      </div>
+    </div>
+  </section>
+  </template>
+  
+  <script>
+  import { ref } from 'vue';
+  import Pop from '../utils/Pop';
+  
+  export default {
+    setup() {
+      let watchLink = ref('')
+      let finalLink = ref('')
+      async function letsWatch(){
+        let length = watchLink.value.length
+        let link = watchLink.value.slice(0, 24)
+        let linkTwo = watchLink.value.slice(32, length)
+        let draftLink = link += 'embed/'
+        let videoLink = draftLink += linkTwo
+        finalLink.value = videoLink
+        watchLink.value = ''
+        Pop.success("OH YEAH BROTHER")
+      }
+      return {
+        finalLink,
+        watchLink,
+        letsWatch
+      }
     }
   }
-}
-</script>
-
-<style scoped lang="scss">
-.home {
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-
-  .home-card {
-    width: clamp(500px, 50vw, 100%);
-
-    >img {
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
+  </script>
+  
+  <style scoped lang="scss">
+  .home {
+    display: grid;
+    height: 80vh;
+    place-content: center;
+    text-align: center;
+    user-select: none;
+  
+    .home-card {
+      width: clamp(500px, 50vw, 100%);
+  
+      >img {
+        height: 200px;
+        max-width: 200px;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+      }
     }
   }
-}
-</style>
+  </style>
