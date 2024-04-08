@@ -10,7 +10,11 @@
           </div>
         </form>
       </div>
+      <div class="col-2">
+        <h4>{{ timer }}</h4>
+      </div>
     </div>
+    <button @click="stopVideo()">Test</button>
     <div class="row">
       <button @click="pausePlay()">test Pause</button>
       <div id="video-element" class="col-10">
